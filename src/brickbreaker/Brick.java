@@ -1,13 +1,12 @@
 /*
- * Program:ProjectFletcher
+ * Project:BrickBreaker
  * This:Brick.java
- * Author:Nicholas Johnston
- * Date:4/29/2016
- * Purpose:This holds the brick object
+ * Author:Nick Johnston
+ * Date:4/9/2017
+ * Purpose:To hold the position, health, and color of a brick object
  */
-package projectfletcher;
-import java.awt.Color;
-
+package brickbreaker;
+import javafx.scene.paint.Color;
 public class Brick 
 {
     //variables
@@ -20,7 +19,7 @@ public class Brick
     int left;
     int right;
     int top;
-    Color maShade;
+    Color shade;
     boolean notBroke = true;
     //constructor
     public Brick(int x,int y, int health)
@@ -29,9 +28,9 @@ public class Brick
         this.yPos = y;
         this.health = health;
         top = yPos;
-        lower = yPos+20;
+        lower = yPos+sizeY;
         right = xPos;
-        left = xPos +40;
+        left = xPos + sizeX;
         
     }
     //methods
@@ -39,17 +38,17 @@ public class Brick
     {
         if(health == 1)
         {
-            maShade = Color.MAGENTA;
+            shade = Color.DEEPPINK;
         }
         else if(health ==2)
         {
-            maShade = Color.cyan;
+            shade = Color.CRIMSON;
         }
         else if(health ==3)
         {
-            maShade = Color.orange;
+            shade = Color.BROWN;
         }
-        return maShade;
+        return shade;
     }
     boolean hit()
     {
@@ -62,8 +61,48 @@ public class Brick
         }
         return false;
     }
-    boolean detect(BallOfPower ball)
-    {//returns true if it killed a brick, also manages hit detection
+    boolean ballDetect(Ball ball)
+    {
+        if(notBroke)
+        {
+            //detect top or bottom
+        if(ball.xPos <left &&ball.xPos >right)
+        {
+            if((ball.yPos+15) ==lower)
+            {
+                //the ball is attacking from below
+                //System.out.println("attack");
+                ball.reflectY();
+                return hit();
+            }
+            else if(ball.yPos==top )
+            {
+                //the ball is attacking from above
+                ball.reflectY();
+                 return hit();
+            }
+        }
+        //detect left or right
+        else if(ball.yPos < lower && ball.yPos>top)
+        {
+            if(ball.xPos ==right)
+            {
+                //ball is attacking from the right
+                ball.reflectX();
+                 return hit();
+            }
+            else if (ball.xPos == left)
+            {
+                //ball is attacking from the right
+                ball.reflectX();
+                 return hit();
+            }
+        }
+        }
+        return false;
+    }
+    boolean detect(Ball ball)
+    {
         if(notBroke)
         {
             //detect top or bottom
@@ -76,7 +115,7 @@ public class Brick
                 ball.reflectY();
                 return hit();
             }
-            else if(ball.yPos==top )
+            else if(ball.yPos ==top )
             {
                 //the ball is attacking from above
                 ball.reflectY();

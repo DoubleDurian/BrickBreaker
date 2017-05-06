@@ -1,44 +1,45 @@
 /*
- * Program:ProjectFletcher
- * This:Player.java
- * Author:Nicholas Johnston
- * Date:4/13/2016
- * Purpose:To control the position and 2d vetor of the player character
-   //may hold infomation for arc attacks.
+ * Project:BrickBreaker
+ * This:Paddle.java
+ * Author:Nick Johnston
+ * Date:4/8/2017
+ * Purpose:This class represents the players paddle, it's position, speed and 
+   hitbox
  */
-package projectfletcher;
+package brickbreaker;
 
-
-public class Player 
+public class Paddle 
 {
-    //AIEGIS REFLECTOR
-    //to be implemented
-    //class vaiables
+    //variables
+        //dimensions of the paddle and its location in space
     int xPos;
     int yPos;
     int xSize;
     int ySize;
+        //sets the bounds of the stage where the paddle is allowed to go
+    int xLimRight;
+    int xLimLeft;
     
-    //vector variables
+    
+        //vector variables
     int xVec=0;
     int yVec =0;
     int maxSpeed =20;
     int minSpeed = -20;
-    //class constructor
-    public Player()
+    
+    //constructor
+    public Paddle()
     {
         xPos = 0;
         yPos = 600;
         xSize = 250;
         ySize = 10;
+        xLimRight = 1116;
+        xLimLeft = 0;
         
     }
-    public Player(int x,int y)
-    {
-        this.xPos = x;
-        this.yPos = y;
-    }
-    //class methods
+    
+    //methods
     //=================
     //DELTA BLOCK
     //================
@@ -69,50 +70,51 @@ public class Player
     //===============
     //Validator block
     //===============
+    //note: i briefly consider/am still considering adding a move to the 
+    //paddle where it move forward like and inch to hit the ball with extra
+    //force applied to the ball. So i'm leaving features checking y axis motion
     boolean xIsPositive()
-    {
+    {//returns if the paddle is moving along x axis
         return (xVec >=0);
     }
     boolean yIsPositive()
-    {
+    {//returns if paddle is moving along y axis
         return (yVec >=0);
     }
-    //==================
-    //accelaration block
-    //==================
+    //================
+    //Accelaration Block
+    //================
     void increaseXVec()
-    {
+    {//increases movment if the momvemt is below max speed
         if(xVec<maxSpeed)
         {
             xVec++;
         }
     }
     void increaseYVec()
-    {
+    {//increased y movment if it is below max speed
         if(yVec<maxSpeed)
         {
             yVec+=2;
         }
     }
     void decreaseXVec()
-    {
+    {//decreases the x veleocity
         if(xVec > minSpeed)
         {
             xVec-=2;
         }
     }
     void decreaseYVec()
-    {
+    {//decreases the y velocity
         if(yVec > minSpeed)
         {
             yVec--;
         }
     }
-    //=============
-    //friction block
-    //=============
     void normalizeX()
-    {
+    {// this applies friction to the paddle if called, slowing it's movment to 
+        //zero
         if(xVec<0)
         {
             xVec++;

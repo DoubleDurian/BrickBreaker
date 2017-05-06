@@ -1,0 +1,21 @@
+Things to do
+
+---------------
+Higher priority
+---------------
+>Fix hit detection of the ball in the Brick class
+
+>Make ball start on the paddle until launched with the up key
+
+
+
+
+
+--------------
+lower priority
+--------------
+>add a scoring system, maybe even have scores saved in a file
+
+>display said scores on the starting menu
+
+>add sounds of some kind for when buttons are clicked and balls are hit

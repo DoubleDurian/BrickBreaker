@@ -1,36 +1,49 @@
 /*
- * Program:PorjectFletcher
- * This:BallOfPower.java
- * Author:Nicholas Johnston
- * Date:4/26/2016
- * Purpose:This ball has a constant speed but when it collides with a wall or 
-    hits the player disk then it reflects its vector.
+ * Project:BrickBreaker
+ * This:Ball.java
+ * Author:Nick Johnston
+ * Date:4/8/2017
+ * Purpose:This class holds information on the ball's velocity and position
  */
-package projectfletcher;
-import java.util.Random;
+package brickbreaker;
 
-public class BallOfPower 
+public class Ball 
 {
-    
     //variables
     int xPos;
     int yPos;
+    int xSize;
+    int ySize;
+    boolean free = false;
+    int left;
+    int right;
+    int up;
+    int down;
+    
     //vetor
     int xVec;
     int yVec;
     //speed
     int maxSpeed=20;
     int optSpeed=5;
-    //constructor()
-    public BallOfPower()
+    //constructors
+    public Ball()
     {
         this.xPos = 500;
         this.yPos = 300;
+        this.xSize = 15;
+        this.ySize = 15;
         this.xVec = -optSpeed;
         this.yVec = optSpeed;
-        
     }
     //methods
+    void init()
+    {//initializes the ball's variables
+        this.left = xPos;
+        this.right = xPos + xSize;
+        this.up = yPos;
+        this.down = yPos + ySize;
+    }
     void xDelta()
     {//changes positoon aling the x axis 
         xPos += xVec;
@@ -45,7 +58,7 @@ public class BallOfPower
             reflectX();
         }
     }
-    boolean yDelta(Player player)
+    boolean yDelta(Paddle player)
     {//changes pisiton along the y axis
         yPos += yVec;
         if(yPos <0)
@@ -54,7 +67,7 @@ public class BallOfPower
             reflectY();
             return false;
         }
-        else if( (xPos >player.xPos) &&(xPos <player.xPos +250)&& (yPos == player.yPos-15))
+        else if( (xPos >player.xPos) &&(xPos <player.xPos +player.xSize)&& (yPos == player.yPos-ySize))
         {
             
             reflectY();
@@ -69,12 +82,21 @@ public class BallOfPower
             
         return false;
     }
-    boolean Delta(Player player)
+    boolean Delta(Paddle player, Boolean onPaddle)
     {
-        xDelta();
-        return yDelta(player);
+        if(onPaddle)
+        {
+            this.xPos = player.xPos + (player.xSize/2) -(this.xSize/2);
+            this.yPos = player.yPos - 20;
+            return false;
+        }
+        else
+        {
+            xDelta();
+            return yDelta(player);
+        }
+        
     }
-    
     void normalizeX()
     {
         if(xVec < optSpeed)
@@ -126,8 +148,9 @@ public class BallOfPower
     {
         yVec = yVec*-1;
     }
-    
-    
-           
+    void toggleFree()
+    {
+        this.free = !free;
+    }
     
 }
